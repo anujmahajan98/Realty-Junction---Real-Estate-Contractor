@@ -3,13 +3,16 @@ import React from 'react'
 import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import bgImage from '../images/bg_image4.webp'
+import { useDispatch, useSelector } from 'react-redux';
+import {signInStart,signInSuccess,signInFailure} from '../redux/user/userSlice';
+import OAuth from '../components/OAuth';
 
 export default function SignIn() {
 
   const [formData, setFormData] = useState({})
-  const [error, setError] = useState(null);
-  const [loading, setLoading] = useState(false);
+  const { loading, error } = useSelector((state) => state.user);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const handleInputChanges = (e) => {
     setFormData({
@@ -22,6 +25,7 @@ export default function SignIn() {
   const handleFormSubmission = async (e) => {
     e.preventDefault()
     try{
+      dispatch(signInStart());
       const response = await fetch('/api/auth/signin',
       {
         method: 'POST',
@@ -33,21 +37,13 @@ export default function SignIn() {
       const data = await response.json();
       
       if(data.success == false){
-        setError(data.message);
-        setLoading(false);
-        if (data.message.toLowerCase().includes('username:')){
-          setError('Username already exists');
-        }else if (data.message.toLowerCase().includes('email:')){
-          setError('Email already exists');
-        }
+        dispatch(signInFailure(data.message));
         return;
       }
-      setLoading(false);
-      setError(null);
+      dispatch(signInSuccess(data));
       navigate('/');
     }catch (error) {
-      setLoading(false);
-      setError(error.message);
+      dispatch(signInFailure(data.message));
     }
   };
 
@@ -81,6 +77,7 @@ export default function SignIn() {
                 className='bg-slate-900 hover:scale-105 transition-transform duration-300 hover:bg-green-500 hover:text-black text-white p-3 rounded-lg uppercase'> 
                 {loading ? 'Loading...' : 'Sign In'}
                 </button>
+                <OAuth/>
             </form>
 
 

@@ -3,6 +3,7 @@ import React from 'react'
 import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import bgImage from '../images/bg_image4.webp'
+import OAuth from '../components/OAuth'
 
 export default function Signup() {
 
@@ -86,6 +87,7 @@ export default function Signup() {
             className='bg-slate-900 hover:scale-105 transition-transform duration-300 hover:bg-green-500 hover:text-black text-white p-3 rounded-lg uppercase'> 
             {loading ? 'Loading...' : 'Sign Up'}
           </button>
+          <OAuth/>
         </form>
 
 
