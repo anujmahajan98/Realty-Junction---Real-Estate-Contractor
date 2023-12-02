@@ -52,6 +52,11 @@ export default function Header() {
                     <Link to='/about-us'>
                         <li className='hover:text-green-500 transition-colors duration-300 text-sm sm:text-xl'>About</li>
                     </Link>
+
+                    <Link to='/dashboard'>
+                        <li className='hover:text-green-500 transition-colors duration-300 text-sm sm:text-xl'>Dashboard</li>
+                    </Link>
+
                     <Link to='/profile'>
                         {currentUser ? (
                         <img
